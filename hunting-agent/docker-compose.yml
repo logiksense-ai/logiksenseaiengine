@@ -1,0 +1,114 @@
+version: '3.9'
+
+services:
+
+  # ── LOCAL LLM BRAIN ─────────────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama:latest
+    container_name: hunter_ollama
+    ports:
+      - '11434:11434'
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    # After starting: docker exec hunter_ollama ollama pull mistral:7b
+
+  # ── PRIMARY DATABASE ─────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: hunter_postgres
+    environment:
+      POSTGRES_DB: intentgraph
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── TASK QUEUE & CACHE ───────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: hunter_redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  # ── VECTOR DATABASE ──────────────────────────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: hunter_qdrant
+    ports:
+      - '6333:6333'
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+  # ── AUTOMATION & NOTIFICATIONS ───────────────────────────────────────────
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: hunter_n8n
+    ports:
+      - '5678:5678'
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: 'true'
+      N8N_BASIC_AUTH_USER: ${N8N_USER:-admin}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_PASSWORD:-admin}
+      WEBHOOK_URL: http://localhost:5678
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
+
+  # ── LLM OBSERVABILITY ────────────────────────────────────────────────────
+  langfuse:
+    image: ghcr.io/langfuse/langfuse:latest
+    container_name: hunter_langfuse
+    ports:
+      - '3001:3000'
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/langfuse
+      NEXTAUTH_SECRET: ${LANGFUSE_SECRET:-secret}
+      SALT: ${LANGFUSE_SALT:-salt}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ── HUNTING AGENT APPLICATION ────────────────────────────────────────────
+  hunter:
+    build: .
+    container_name: hunter_app
+    ports:
+      - '8000:8000'
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/intentgraph
+      REDIS_URL: redis://redis:6379
+      QDRANT_URL: http://qdrant:6333
+      OLLAMA_URL: http://ollama:11434
+      N8N_WEBHOOK: http://n8n:5678/webhook/daily-brief
+      LANGFUSE_HOST: http://langfuse:3000
+    env_file: .env
+    depends_on:
+      - postgres
+      - redis
+      - qdrant
+      - ollama
+    restart: unless-stopped
+    volumes:
+      - ./:/app
+
+volumes:
+  postgres_data:
+  redis_data:
+  qdrant_data:
+  ollama_data:
+  n8n_data:

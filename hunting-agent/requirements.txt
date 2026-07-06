@@ -1,0 +1,42 @@
+# requirements.txt — Install with: pip install -r requirements.txt
+
+# ── Web Framework ────────────────────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+pydantic-settings==2.2.1
+
+# ── Database ─────────────────────────────────────────────────────────────────
+sqlalchemy==2.0.30
+alembic==1.13.1
+asyncpg==0.29.0          # Async PostgreSQL driver
+psycopg2-binary==2.9.9   # Sync driver for migrations
+redis==5.0.4
+
+# ── AI & LLM ─────────────────────────────────────────────────────────────────
+langchain==0.2.1
+langchain-community==0.2.1
+langchain-ollama==0.1.1
+crewai==0.30.11
+ollama==0.2.1
+qdrant-client==1.9.1
+langfuse==2.27.1
+
+# ── Web Crawling & Scraping ───────────────────────────────────────────────────
+crawl4ai==0.2.77
+playwright==1.44.0
+httpx==0.27.0
+beautifulsoup4==4.12.3
+lxml==5.2.2
+feedparser==6.0.11
+trafilatura==1.9.0
+
+# ── Reddit & Social ───────────────────────────────────────────────────────────
+praw==7.7.1
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+apscheduler==3.10.4
+rapidfuzz==3.9.3
+loguru==0.7.2
+python-dotenv==1.0.1
+pytrends==4.9.2
