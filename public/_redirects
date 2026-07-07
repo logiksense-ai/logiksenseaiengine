@@ -1,0 +1,6 @@
+/* Standard Vite fallback for single-page applications on Render */
+/* This ensures that all routes point to index.html so React can handle them */
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
