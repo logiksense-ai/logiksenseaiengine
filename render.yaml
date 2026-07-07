@@ -3,7 +3,7 @@ services:
     name: logiksense-ai
     runtime: static
     buildCommand: npm install && npm run build
-    staticPublishCustomDir: DIST
+    staticPublishCustomDir: dist
     envVars:
       - key: VITE_API_URL
         value: https://nails-yeah-flooring-gospel.trycloudflare.com
