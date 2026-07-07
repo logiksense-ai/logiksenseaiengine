@@ -2,7 +2,8 @@ import { useState, useEffect, FC } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Target, Zap, Mail as IconMail, Linkedin as IconBrandLinkedin, CheckCircle2 } from 'lucide-react';
+import { Target, Zap, Mail as IconMail, CheckCircle2, TrendingUp, Radio, AlertTriangle, Search } from 'lucide-react';
+import { IconBrandLinkedin } from '@tabler/icons-react';
 
 interface DashboardViewProps {
   companies: Company[];

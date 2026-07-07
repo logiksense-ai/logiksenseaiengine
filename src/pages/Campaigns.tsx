@@ -1,4 +1,8 @@
 import { FC } from 'react';
+import { 
+  IconMail, 
+  IconDots
+} from '@tabler/icons-react';
 
 export const Campaigns: FC = () => {
   const campaigns = [
