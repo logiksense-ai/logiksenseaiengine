@@ -12,7 +12,8 @@ import {
   IconInbox,
   IconStack2,
   IconShieldCheck,
-  IconLayoutColumns
+  IconLayoutColumns,
+  IconLogout
 } from '@tabler/icons-react';
 
 const intelligenceItems = [
@@ -42,6 +43,11 @@ const engineItems = [
 ];
 
 export const Sidebar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = '/login';
+  };
+
   return (
     <div className="sidebar" style={{ 
       display: 'flex', 
@@ -102,6 +108,15 @@ export const Sidebar = () => {
             {item.label}
           </NavLink>
         ))}
+
+        <div 
+          onClick={handleLogout}
+          className="nav-item" 
+          style={{ textDecoration: 'none', marginTop: '20px', cursor: 'pointer', color: 'var(--text-muted)' }}
+        >
+          <IconLogout size={18} stroke={1.5} />
+          Logout Terminal
+        </div>
       </nav>
 
       {/* Agent Heartbeat Strip */}

@@ -14,8 +14,22 @@ import { Sequences } from './pages/Sequences';
 import { Inbox } from './pages/Inbox';
 import { Pipeline } from './pages/Pipeline';
 import { Compliance } from './pages/Compliance';
+import { Login } from './pages/Login';
 
 function App() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+  if (!isLoggedIn) {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
+
   return (
     <BrowserRouter>
       <div className="app-layout">
@@ -42,6 +56,7 @@ function App() {
             <Route path="/agents" element={<Agents />} />
             <Route path="/audit" element={<AuditLog />} />
             <Route path="/compliance" element={<Compliance />} />
+            <Route path="/login" element={<Navigate to="/" replace />} />
             
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
