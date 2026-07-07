@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import type { FC } from 'react';
+import { OrchestratorView } from '../components/OrchestratorView';
 import { mockAgents, mockLogs } from '../mockData';
 
 export const Agents: FC = () => {
@@ -7,7 +8,7 @@ export const Agents: FC = () => {
       <OrchestratorView 
         agents={mockAgents} 
         logs={mockLogs} 
-        onTriggerAgent={(id) => console.log('Triggering agent', id)}
+        onTriggerAgent={(id: number) => console.log('Triggering agent', id)}
         onTriggerAll={() => console.log('Triggering all agents')}
       />
     </div>

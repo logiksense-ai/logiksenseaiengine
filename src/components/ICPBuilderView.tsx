@@ -1,4 +1,5 @@
-import { useState, FC } from 'react';
+import { useState } from 'react';
+import type { FC } from 'react';
 import type { ICPTemplate, Company } from '../types';
 import { Sparkles, Sliders } from 'lucide-react';
 

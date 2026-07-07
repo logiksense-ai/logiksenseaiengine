@@ -1,8 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
+import { mockCompanies } from '../mockData';
+import type { Company, Signal } from '../types';
 import { IconTarget, IconExternalLink } from '@tabler/icons-react';
 
 export const Signals: FC = () => {
-  const allSignals = mockCompanies.flatMap(c => c.signals.map(s => ({ ...s, companyName: c.name, companyId: c.id })));
+  const allSignals = mockCompanies.flatMap((c: Company) => 
+    c.signals.map((s: Signal) => ({ ...s, companyName: c.name, companyId: c.id }))
+  );
   
   return (
     <div>
@@ -10,7 +14,7 @@ export const Signals: FC = () => {
       <p className="text-body" style={{ marginBottom: '24px' }}>Real-time stream of verified B2B intent signals processed by the Ruflo Analyst swarm.</p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {allSignals.map((signal, idx) => (
+        {allSignals.map((signal: Signal & { companyName: string; companyId: string }, idx: number) => (
           <div key={idx} className="card-panel animate-in" style={{ borderLeft: '3px solid var(--color-indigo-600)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
               <div>

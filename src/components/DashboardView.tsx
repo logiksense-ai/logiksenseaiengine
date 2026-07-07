@@ -1,4 +1,5 @@
-import { useState, useEffect, FC } from 'react';
+import { useState, useEffect } from 'react';
+import type { FC } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
