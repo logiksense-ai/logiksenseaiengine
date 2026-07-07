@@ -1,11 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { LeadsView } from '../components/LeadsView';
 import { mockCompanies } from '../mockData';
 import { IconUsers, IconTarget, IconActivity } from '@tabler/icons-react';
 
 export const Leads: FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLeads = async () => {

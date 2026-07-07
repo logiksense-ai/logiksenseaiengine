@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { 
-  IconMail, 
   IconDots,
   IconPlus,
   IconClock,
@@ -10,7 +10,7 @@ import {
 export const Campaigns: FC = () => {
   const [templates, setTemplates] = useState<any[]>([]);
   const [sequences, setSequences] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {

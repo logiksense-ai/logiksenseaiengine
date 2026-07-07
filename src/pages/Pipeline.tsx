@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { IconKanban, IconPlus } from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
 
 export const Pipeline: FC = () => {
   const columns = ['Interested', 'Meeting Booked', 'Demo Done', 'Negotiation', 'Closed Won'];

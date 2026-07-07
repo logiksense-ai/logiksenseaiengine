@@ -4,7 +4,6 @@ import {
   IconTarget, 
   IconActivity, 
   IconRobot, 
-  IconChartBar, 
   IconSettings,
   IconRadar,
   IconSearch,
@@ -12,9 +11,8 @@ import {
   IconBrandLinkedin,
   IconInbox,
   IconStack2,
-  IconKanban,
   IconShieldCheck,
-  IconTemplate
+  IconLayoutColumns
 } from '@tabler/icons-react';
 
 const intelligenceItems = [
@@ -33,7 +31,7 @@ const marketingItems = [
 
 const salesItems = [
   { icon: IconBrandLinkedin,   label: 'LinkedIn',     route: '/linkedin' },
-  { icon: IconKanban,          label: 'Pipeline',     route: '/pipeline' },
+  { icon: IconLayoutColumns,   label: 'Pipeline',     route: '/pipeline' },
 ];
 
 const engineItems = [
