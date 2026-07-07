@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: logiksense-ai
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishCustomDir: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://nails-yeah-flooring-gospel.trycloudflare.com
+    redirects:
+      - from: /*
+        to: /index.html
+        type: rewrite
