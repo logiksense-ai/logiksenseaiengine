@@ -7,5 +7,5 @@ export default defineConfig({
   build: {
     outDir: 'DIST', // Matching the Render manual setting
   },
-  base: './',
+  base: '/',
 })
