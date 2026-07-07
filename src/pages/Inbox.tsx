@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { IconInbox, IconMessageDots } from '@tabler/icons-react';
+import { IconMessageDots } from '@tabler/icons-react';
 
 export const Inbox: FC = () => {
   return (

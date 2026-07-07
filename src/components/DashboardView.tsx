@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Target, Zap, Mail as IconMail, CheckCircle2, TrendingUp, Radio, AlertTriangle, Search, Shield } from 'lucide-react';
+import { Target, Zap, Mail as IconMail, CheckCircle2, TrendingUp, Radio, Search, Shield } from 'lucide-react';
 import { IconBrandLinkedin } from '@tabler/icons-react';
 
 interface DashboardViewProps {
@@ -37,7 +37,6 @@ export const DashboardView: FC<DashboardViewProps> = ({ companies, onNavigateToL
   const totalTracked = filteredCompanies.length;
   const highIntentCount = filteredCompanies.filter(c => c.intentScore >= 60).length;
   const totalSignals = filteredCompanies.reduce((acc, c) => acc + c.signals.length, 0);
-  const avgScore = totalTracked > 0 ? Math.round(filteredCompanies.reduce((acc, c) => acc + c.intentScore, 0) / totalTracked) : 0;
 
   // Score distribution data for chart
   const scoreTiers = [

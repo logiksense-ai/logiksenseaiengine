@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { 
-  IconSearch, 
   IconPlus, 
   IconPlayerPlay, 
   IconSettings, 

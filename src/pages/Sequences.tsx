@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { IconMail, IconPlus, IconDeviceDesktopAnalytics } from '@tabler/icons-react';
+import { IconMail, IconPlus } from '@tabler/icons-react';
 
 export const Sequences: FC = () => {
   return (

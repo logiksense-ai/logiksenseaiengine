@@ -6,7 +6,6 @@ import {
   IconAlertTriangle, 
   IconInfoCircle,
   IconFilter,
-  IconDownload,
   IconShieldCheck,
   IconUser,
   IconExternalLink
