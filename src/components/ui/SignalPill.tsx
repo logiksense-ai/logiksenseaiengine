@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface SignalPillProps {
   icon: React.ReactNode;
   label: string;

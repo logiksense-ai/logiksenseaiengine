@@ -1,7 +1,5 @@
-import React from 'react';
 import { 
-  IconMail, 
-  IconDots
+  IconMail
 } from '@tabler/icons-react';
 
 export const Campaigns: React.FC = () => {

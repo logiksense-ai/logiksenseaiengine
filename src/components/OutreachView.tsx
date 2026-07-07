@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Company } from '../types';
 import { Mail, FileText, Check, Copy, Sparkles, MessageCircle } from 'lucide-react';
 

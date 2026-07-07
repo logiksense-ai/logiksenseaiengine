@@ -1,6 +1,4 @@
-import React from 'react';
 import { mockCompanies } from '../mockData';
-import { SignalPill } from '../components/ui/SignalPill';
 import { IconTarget, IconExternalLink } from '@tabler/icons-react';
 
 export const Signals: React.FC = () => {

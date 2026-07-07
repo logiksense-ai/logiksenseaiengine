@@ -1,4 +1,3 @@
-import React from 'react';
 import { DashboardView } from '../components/DashboardView';
 import { mockCompanies } from '../mockData';
 import type { LogEntry } from '../types';

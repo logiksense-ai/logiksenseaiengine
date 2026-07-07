@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { AgentStatus, LogEntry } from '../types';
 import { Play, Terminal, Server, ShieldCheck, Activity, RefreshCw, Layers } from 'lucide-react';
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { TrendingUp, Target, Radio, AlertTriangle, Search, Zap, Mail as IconMail, Linkedin as IconBrandLinkedin, CheckCircle2 } from 'lucide-react';
+import { Target, Zap, Mail as IconMail, Linkedin as IconBrandLinkedin, CheckCircle2 } from 'lucide-react';
 
 interface DashboardViewProps {
   companies: Company[];

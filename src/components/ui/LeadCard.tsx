@@ -1,7 +1,6 @@
-import React from 'react';
 import { ScoreBadge } from './ScoreBadge';
 import { SignalPill } from './SignalPill';
-import { IconBuildingSkyscraper, IconUserPlus, IconWorldX } from '@tabler/icons-react';
+import { IconBuildingSkyscraper, IconUserPlus } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 
 interface LeadCardProps {
@@ -33,7 +32,6 @@ export const LeadCard: React.FC<LeadCardProps> = ({ id, name, industry, location
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
         <SignalPill icon={<IconBuildingSkyscraper size={14} />} label="New ABN" recency="12 days ago" />
         <SignalPill icon={<IconUserPlus size={14} />} label="Hiring office manager" recency="2 days ago" />
-        <SignalPill icon={<IconWorldX size={14} />} label="No website detected" recency="1 day ago" />
       </div>
 
       <div style={{ padding: '12px', backgroundColor: 'var(--bg-panel)', borderRadius: '4px', borderLeft: '2px solid var(--color-indigo-600)' }}>

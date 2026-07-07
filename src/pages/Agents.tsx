@@ -1,4 +1,3 @@
-import React from 'react';
 import { OrchestratorView } from '../components/OrchestratorView';
 import { mockAgents, mockLogs } from '../mockData';
 

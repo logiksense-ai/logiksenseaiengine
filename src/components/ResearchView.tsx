@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { 
   Search, Globe, Code2, Shield, 
   ExternalLink, CheckCircle2, Loader2, Clock,

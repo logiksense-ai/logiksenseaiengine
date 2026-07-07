@@ -1,4 +1,3 @@
-import React from 'react';
 import { LeadsView } from '../components/LeadsView';
 import { mockCompanies } from '../mockData';
 

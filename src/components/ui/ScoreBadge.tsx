@@ -1,5 +1,3 @@
-import React from 'react';
-
 type Tier = 'cold' | 'warm' | 'high' | 'immediate';
 
 const tierStyles = {
