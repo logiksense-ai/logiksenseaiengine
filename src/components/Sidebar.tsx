@@ -16,11 +16,13 @@ const navItems = [
   { icon: IconLayoutDashboard, label: 'Dashboard',    route: '/' },
   { icon: IconTarget,          label: 'Leads',        route: '/leads' },
   { icon: IconSearch,          label: 'Research',      route: '/research' },
+  { icon: IconRadar,           label: 'AI Scraper',    route: '/scraper' },
   { icon: IconActivity,        label: 'Signals',      route: '/signals' },
   { icon: IconMail,            label: 'Campaigns',    route: '/campaigns' },
   { icon: IconBrandLinkedin,   label: 'LinkedIn',     route: '/linkedin' },
   { icon: IconRobot,           label: 'Agents',       route: '/agents' },
   { icon: IconChartBar,        label: 'Analytics',    route: '/analytics' },
+  { icon: IconActivity,        label: 'Audit Log',     route: '/audit' },
   { icon: IconSettings,        label: 'Settings',     route: '/settings' },
 ];
 

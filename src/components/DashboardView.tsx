@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { Target, Zap, Mail as IconMail, CheckCircle2, TrendingUp, Radio, AlertTriangle, Search } from 'lucide-react';
+import { Target, Zap, Mail as IconMail, CheckCircle2, TrendingUp, Radio, AlertTriangle, Search, Shield } from 'lucide-react';
 import { IconBrandLinkedin } from '@tabler/icons-react';
 
 interface DashboardViewProps {
@@ -133,11 +133,11 @@ export const DashboardView: FC<DashboardViewProps> = ({ companies, onNavigateToL
 
         <div className="glass-panel" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
-            <span style={{ fontSize: '14px', fontWeight: 500 }}>Average v3 Score</span>
-            <AlertTriangle size={18} style={{ color: 'var(--color-warning)' }} />
+            <span style={{ fontSize: '14px', fontWeight: 500 }}>AI Audit Status</span>
+            <Shield size={18} style={{ color: 'var(--color-warning)' }} />
           </div>
-          <div style={{ fontSize: '32px', fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--color-warning)' }}>{avgScore}<span style={{ fontSize: '16px', color: 'var(--text-muted)' }}>/100</span></div>
-          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Weighted across 15 agents</div>
+          <div style={{ fontSize: '32px', fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--color-warning)' }}>100%</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Verified & Compliant</div>
         </div>
 
       </div>

@@ -63,3 +63,28 @@ class AgentLogModel(Base):
     log_type = Column(String, default="info")
     message = Column(Text)
     timestamp = Column(DateTime, default=datetime.utcnow)
+
+class ScraperProfileModel(Base):
+    __tablename__ = "scraper_profiles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+    business_type = Column(String)
+    city = Column(String, nullable=True)
+    country = Column(String, nullable=True)
+    query = Column(String)
+    target_limit = Column(Integer, default=10)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+class ScraperJobModel(Base):
+    __tablename__ = "scraper_jobs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    profile_id = Column(Integer, ForeignKey("scraper_profiles.id"))
+    status = Column(String, default="pending") # pending, running, completed, failed
+    results_count = Column(Integer, default=0)
+    error_message = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    completed_at = Column(DateTime, nullable=True)

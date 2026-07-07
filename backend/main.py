@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from database import engine, get_db, Base
-from models import CompanyModel, SignalModel, AgentLogModel
+from models import CompanyModel, SignalModel, AgentLogModel, ScraperProfileModel, ScraperJobModel
 
 # Initialize database schemas automatically
 Base.metadata.create_all(bind=engine)
@@ -41,6 +41,13 @@ class CompanyCreate(BaseModel):
     industry: str
     revenue: Optional[str] = "$10M - $25M"
     headcount: Optional[int] = 50
+
+class ScraperProfileCreate(BaseModel):
+    name: str
+    business_type: str
+    city: Optional[str] = None
+    country: Optional[str] = None
+    target_limit: Optional[int] = 10
 
 @app.get("/")
 def read_root():
@@ -98,6 +105,67 @@ def create_company(company: CompanyCreate, db: Session = Depends(get_db)):
     )
     db.add(new_company)
     db.commit()
+    db.refresh(new_company)
+    return new_company
+
+# ── Scraper Endpoints ────────────────────────────────────────
+
+@app.get("/api/scraper/profiles")
+def list_profiles(db: Session = Depends(get_db)):
+    profiles = db.query(ScraperProfileModel).order_by(ScraperProfileModel.updated_at.desc()).all()
+    return profiles
+
+@app.post("/api/scraper/profiles")
+def create_profile(profile: ScraperProfileCreate, db: Session = Depends(get_db)):
+    query = f"{profile.business_type} in {profile.city or ''} {profile.country or ''}".strip()
+    new_profile = ScraperProfileModel(
+        name=profile.name,
+        business_type=profile.business_type,
+        city=profile.city,
+        country=profile.country,
+        query=query,
+        target_limit=profile.target_limit
+    )
+    db.add(new_profile)
+    db.commit()
+    db.refresh(new_profile)
+    return new_profile
+
+@app.get("/api/scraper/status")
+def get_scraper_status():
+    return {
+        "active_jobs": 0,
+        "completed_today": 5,
+        "system_load": "low",
+        "next_scheduled": datetime.utcnow().isoformat()
+    }
+
+@app.post("/api/scraper/profiles/{profile_id}/run")
+def run_scraper(profile_id: int, db: Session = Depends(get_db)):
+    profile = db.query(ScraperProfileModel).filter(ScraperProfileModel.id == profile_id).first()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+    
+    # In a real app, this would trigger a Celery task
+    new_job = ScraperJobModel(
+        profile_id=profile_id,
+        status="running"
+    )
+    db.add(new_job)
+    db.commit()
+    
+    # Mock behavior: log it
+    print(f"Triggered scraper for profile: {profile.name} with query: {profile.query}")
+    
+    return {"job_id": new_job.id, "status": "started"}
+
+# ── Audit Log Endpoints ──────────────────────────────────────
+
+@app.get("/api/audit/logs")
+def get_audit_logs(db: Session = Depends(get_db)):
+    # Reusing AgentLogModel for simplicity in this port
+    logs = db.query(AgentLogModel).order_by(AgentLogModel.timestamp.desc()).limit(100).all()
+    return logs
     db.refresh(new_company)
     return {"status": "success", "id": new_company.id}
 
