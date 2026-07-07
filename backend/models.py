@@ -88,3 +88,62 @@ class ScraperJobModel(Base):
     error_message = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     completed_at = Column(DateTime, nullable=True)
+
+class LeadModel(Base):
+    __tablename__ = "leads"
+
+    id = Column(Integer, primary_key=True, index=True)
+    first_name = Column(String, nullable=True)
+    last_name = Column(String, nullable=True)
+    email = Column(String, index=True)
+    linkedin_url = Column(String, nullable=True)
+    company_name = Column(String, nullable=True)
+    job_title = Column(String, nullable=True)
+    status = Column(String, default="new") # new, contacted, replied, converted, bounced
+    lead_score = Column(Integer, default=0)
+    last_contacted_at = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class EmailTemplateModel(Base):
+    __tablename__ = "email_templates"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    subject = Column(String)
+    body = Column(Text)
+    category = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class EmailSequenceModel(Base):
+    __tablename__ = "email_sequences"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    description = Column(String, nullable=True)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    steps = relationship("EmailSequenceStepModel", back_populates="sequence", cascade="all, delete-orphan")
+
+class EmailSequenceStepModel(Base):
+    __tablename__ = "email_sequence_steps"
+
+    id = Column(Integer, primary_key=True, index=True)
+    sequence_id = Column(Integer, ForeignKey("email_sequences.id"))
+    template_id = Column(Integer, ForeignKey("email_templates.id"))
+    step_number = Column(Integer)
+    delay_days = Column(Integer, default=2)
+
+    sequence = relationship("EmailSequenceModel", back_populates="steps")
+    template = relationship("EmailTemplateModel")
+
+class LinkedInCampaignModel(Base):
+    __tablename__ = "linkedin_campaigns"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    status = Column(String, default="paused") # active, paused, completed
+    connection_message = Column(Text, nullable=True)
+    follow_up_message = Column(Text, nullable=True)
+    target_count = Column(Integer, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow)

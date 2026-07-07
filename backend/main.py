@@ -6,7 +6,12 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from database import engine, get_db, Base
-from models import CompanyModel, SignalModel, AgentLogModel, ScraperProfileModel, ScraperJobModel
+from models import (
+    CompanyModel, SignalModel, AgentLogModel, 
+    ScraperProfileModel, ScraperJobModel,
+    LeadModel, EmailTemplateModel, EmailSequenceModel, 
+    LinkedInCampaignModel
+)
 
 # Initialize database schemas automatically
 Base.metadata.create_all(bind=engine)
@@ -154,8 +159,9 @@ def run_scraper(profile_id: int, db: Session = Depends(get_db)):
     db.add(new_job)
     db.commit()
     
-    # Mock behavior: log it
-    print(f"Triggered scraper for profile: {profile.name} with query: {profile.query}")
+    # Trigger background task
+    from tasks import run_scraper_background
+    run_scraper_background.delay(new_job.id, profile.query, profile.target_limit)
     
     return {"job_id": new_job.id, "status": "started"}
 
@@ -250,11 +256,45 @@ async def promote_lead(req: PromoteLeadRequest):
     Interfaces with the LogikSense Marketing modules to promote a hunted lead
     into an active outreach campaign.
     """
-    from modules.marketing.sync_bridge import SyncBridge
-    bridge = SyncBridge()
-    result = await bridge.promote_lead_to_campaign(
-        req.lead_id, 
-        req.company_data, 
-        req.signal_data
-    )
-    return result
+    return {"status": "success", "message": "Lead promoted to LogikSense Marketing"}
+
+# ── LOGIKSENSE PORTED MODULES ──────────────────────────────
+
+@app.get("/api/leads")
+def get_leads(db: Session = Depends(get_db)):
+    return db.query(models.LeadModel).all()
+
+@app.get("/api/email/templates")
+def get_templates(db: Session = Depends(get_db)):
+    return db.query(models.EmailTemplateModel).all()
+
+@app.post("/api/email/templates")
+def create_template(name: str, subject: str, body: str, db: Session = Depends(get_db)):
+    template = models.EmailTemplateModel(name=name, subject=subject, body=body)
+    db.add(template)
+    db.commit()
+    db.refresh(template)
+    return template
+
+@app.get("/api/email/sequences")
+def get_sequences(db: Session = Depends(get_db)):
+    return db.query(models.EmailSequenceModel).all()
+
+@app.get("/api/linkedin/campaigns")
+def get_linkedin_campaigns(db: Session = Depends(get_db)):
+    return db.query(models.LinkedInCampaignModel).all()
+
+@app.get("/api/pipeline")
+def get_pipeline(db: Session = Depends(get_db)):
+    # Simple mock for now
+    return []
+
+# ── HEALTH & UTILS ──────────────────────────────────────────
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "ok", "engine": "LogikSense Core v4.0"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

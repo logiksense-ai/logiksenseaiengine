@@ -10,6 +10,10 @@ import { Campaigns } from './pages/Campaigns';
 import { LinkedIn } from './pages/LinkedIn';
 import { Scraper } from './pages/Scraper';
 import { AuditLog } from './pages/AuditLog';
+import { Sequences } from './pages/Sequences';
+import { Inbox } from './pages/Inbox';
+import { Pipeline } from './pages/Pipeline';
+import { Compliance } from './pages/Compliance';
 
 function App() {
   return (
@@ -24,10 +28,21 @@ function App() {
             <Route path="/research" element={<ResearchView />} />
             <Route path="/scraper" element={<Scraper />} />
             <Route path="/signals" element={<Signals />} />
+            
+            {/* Execution / Marketing */}
             <Route path="/campaigns" element={<Campaigns />} />
+            <Route path="/sequences" element={<Sequences />} />
+            <Route path="/inbox" element={<Inbox />} />
+            
+            {/* Sales */}
             <Route path="/linkedin" element={<LinkedIn />} />
+            <Route path="/pipeline" element={<Pipeline />} />
+            
+            {/* System */}
             <Route path="/agents" element={<Agents />} />
             <Route path="/audit" element={<AuditLog />} />
+            <Route path="/compliance" element={<Compliance />} />
+            
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
