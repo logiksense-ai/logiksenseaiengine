@@ -4,6 +4,8 @@ import { Dashboard } from './pages/Dashboard';
 import { Leads } from './pages/Leads';
 import { LeadDetail } from './pages/LeadDetail';
 import { Signals } from './pages/Signals';
+import { ICP } from './pages/ICP';
+import { Engagement } from './pages/Engagement';
 import { Agents } from './pages/Agents';
 import { ResearchView } from './components/ResearchView';
 import { Campaigns } from './pages/Campaigns';
@@ -39,9 +41,11 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/leads" element={<Leads />} />
             <Route path="/leads/:id" element={<LeadDetail />} />
+            <Route path="/icp" element={<ICP />} />
             <Route path="/research" element={<ResearchView />} />
             <Route path="/scraper" element={<Scraper />} />
             <Route path="/signals" element={<Signals />} />
+            <Route path="/engagement" element={<Engagement />} />
             
             {/* Execution / Marketing */}
             <Route path="/campaigns" element={<Campaigns />} />

@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { 
   IconLayoutDashboard, 
+  IconUsers,
   IconTarget, 
   IconActivity, 
   IconRobot, 
@@ -8,6 +9,7 @@ import {
   IconRadar,
   IconSearch,
   IconMail,
+  IconSparkles,
   IconBrandLinkedin,
   IconInbox,
   IconStack2,
@@ -18,13 +20,15 @@ import {
 
 const intelligenceItems = [
   { icon: IconLayoutDashboard, label: 'Dashboard',    route: '/' },
-  { icon: IconTarget,          label: 'Leads',        route: '/leads' },
+  { icon: IconUsers,           label: 'Leads',        route: '/leads' },
   { icon: IconSearch,          label: 'Research',      route: '/research' },
+  { icon: IconTarget,          label: 'ICP Builder',   route: '/icp' },
   { icon: IconRadar,           label: 'AI Scraper',    route: '/scraper' },
   { icon: IconActivity,        label: 'Signals',      route: '/signals' },
 ];
 
 const marketingItems = [
+  { icon: IconSparkles,         label: 'Engagement',   route: '/engagement' },
   { icon: IconMail,            label: 'Campaigns',    route: '/campaigns' },
   { icon: IconStack2,          label: 'Sequences',    route: '/sequences' },
   { icon: IconInbox,           label: 'Inbox',        route: '/inbox' },
