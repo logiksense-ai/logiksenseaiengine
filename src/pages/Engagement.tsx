@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { FC } from 'react';
 import { OutreachView } from '../components/OutreachView';
 import { mockCompanies } from '../mockData';

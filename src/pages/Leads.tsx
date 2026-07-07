@@ -6,7 +6,6 @@ import { IconUsers, IconTarget, IconActivity, IconUpload, IconFileSpreadsheet, I
 
 export const Leads: FC = () => {
   const [leads, setLeads] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [isImportModalOpen, setImportModalOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [importPreview, setImportPreview] = useState<any>(null);
@@ -16,14 +15,11 @@ export const Leads: FC = () => {
 
   const fetchLeads = async () => {
     try {
-      setLoading(true);
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api/leads`);
       const data = await res.json();
       setLeads(data);
     } catch (err) {
       console.error("Failed to fetch leads", err);
-    } finally {
-      setLoading(false);
     }
   };
 
