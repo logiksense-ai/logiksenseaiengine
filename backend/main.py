@@ -1,7 +1,9 @@
-from fastapi import FastAPI, Depends, HTTPException
+import pandas as pd
+import io
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Dict
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -174,6 +176,91 @@ def get_audit_logs(db: Session = Depends(get_db)):
     return logs
     db.refresh(new_company)
     return {"status": "success", "id": new_company.id}
+
+# ── Lead Management Endpoints ──────────────────────────────
+
+@app.get("/api/leads")
+def get_leads(db: Session = Depends(get_db)):
+    leads = db.query(LeadModel).all()
+    return leads
+
+@app.post("/api/leads/import/preview")
+async def preview_leads_import(file: UploadFile = File(...)):
+    """
+    Parses the first 5 rows of a CSV/Excel to help the user map columns.
+    """
+    content = await file.read()
+    filename = file.filename.lower()
+    
+    try:
+        if filename.endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(content))
+        elif filename.endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(io.BytesIO(content))
+        else:
+            raise HTTPException(status_code=400, detail="Unsupported file format. Use CSV or Excel.")
+        
+        detected_columns = df.columns.tolist()
+        preview_rows = df.head(5).to_dict(orient='records')
+        
+        return {
+            "detectedColumns": detected_columns,
+            "previewRows": preview_rows,
+            "totalRows": len(df)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error parsing file: {str(e)}")
+
+@app.post("/api/leads/import/confirm")
+async def confirm_leads_import(
+    file: UploadFile = File(...),
+    mapping: str = Form(...), # JSON string of mapping
+    dedupeStrategy: str = Form("email"),
+    db: Session = Depends(get_db)
+):
+    import json
+    content = await file.read()
+    mapping_dict = json.loads(mapping)
+    
+    try:
+        if file.filename.lower().endswith('.csv'):
+            df = pd.read_csv(io.BytesIO(content))
+        else:
+            df = pd.read_excel(io.BytesIO(content))
+        
+        # Mapping standard internal keys to CSV column names
+        # Internal Keys: email, first_name, last_name, company_name, job_title, linkedin_url
+        
+        success_count = 0
+        for _, row in df.iterrows():
+            lead_email = str(row.get(mapping_dict.get('email', ''))).strip() if mapping_dict.get('email') else None
+            
+            if not lead_email or lead_email == 'nan':
+                continue
+                
+            # Deduplication
+            existing = db.query(LeadModel).filter(LeadModel.email == lead_email).first()
+            if existing:
+                continue # Simple skip for now
+            
+            new_lead = LeadModel(
+                email=lead_email,
+                first_name=str(row.get(mapping_dict.get('first_name', ''))).strip() if mapping_dict.get('first_name') else "Unknown",
+                last_name=str(row.get(mapping_dict.get('last_name', ''))).strip() if mapping_dict.get('last_name') else "",
+                company_name=str(row.get(mapping_dict.get('company_name', ''))).strip() if mapping_dict.get('company_name') else "Generic",
+                job_title=str(row.get(mapping_dict.get('job_title', ''))).strip() if mapping_dict.get('job_title') else "Lead",
+                linkedin_url=str(row.get(mapping_dict.get('linkedin_url', ''))).strip() if mapping_dict.get('linkedin_url') else None,
+                status="Direct Import",
+                lead_score=50, # Neutral score for imported leads
+            )
+            db.add(new_lead)
+            success_count += 1
+            
+        db.commit()
+        return {"status": "success", "imported": success_count}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Import failed: {str(e)}")
 
 @app.post("/api/signals")
 def add_signal(signal: SignalCreate, db: Session = Depends(get_db)):
