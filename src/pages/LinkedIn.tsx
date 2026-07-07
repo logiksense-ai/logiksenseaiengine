@@ -3,7 +3,6 @@ import {
   IconBrandLinkedin, 
   IconUserSearch, 
   IconMessage, 
-  IconBrowser,
   IconShieldCheck,
   IconAlertCircle
 } from '@tabler/icons-react';

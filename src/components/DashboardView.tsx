@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { TrendingUp, Target, Radio, AlertTriangle, Search, Globe, Zap, Mail as IconMail, Linkedin as IconBrandLinkedin } from 'lucide-react';
+import { TrendingUp, Target, Radio, AlertTriangle, Search, Zap, Mail as IconMail, Linkedin as IconBrandLinkedin, CheckCircle2 } from 'lucide-react';
 
 interface DashboardViewProps {
   companies: Company[];
@@ -10,7 +10,7 @@ interface DashboardViewProps {
   onNavigateToLeads: () => void;
 }
 
-export const DashboardView: React.FC<DashboardViewProps> = ({ companies, logs, onNavigateToLeads }) => {
+export const DashboardView: React.FC<DashboardViewProps> = ({ companies, onNavigateToLeads }) => {
   const [pipelineFilter, setPipelineFilter] = useState<'All' | 'Enterprise' | 'SMB'>('All');
   const [searchTrends, setSearchTrends] = useState<any[]>(mockSearchTrends);
   const [loadingTrends, setLoadingTrends] = useState(false);
@@ -243,7 +243,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ companies, logs, o
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-success)', fontSize: '11px', fontWeight: 600 }}>
-                  <CheckCircle size={14} /> CONNECTED
+                  <CheckCircle2 size={14} /> CONNECTED
                 </div>
                 <div style={{ fontSize: '10px', color: 'var(--text-disabled)' }}>Graph API Active</div>
               </div>

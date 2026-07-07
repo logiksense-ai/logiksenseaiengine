@@ -1,7 +1,7 @@
 import React from 'react';
 import { mockCompanies } from '../mockData';
 import { SignalPill } from '../components/ui/SignalPill';
-import { IconActivity, IconTarget, IconExternalLink } from '@tabler/icons-react';
+import { IconTarget, IconExternalLink } from '@tabler/icons-react';
 
 export const Signals: React.FC = () => {
   const allSignals = mockCompanies.flatMap(c => c.signals.map(s => ({ ...s, companyName: c.name, companyId: c.id })));

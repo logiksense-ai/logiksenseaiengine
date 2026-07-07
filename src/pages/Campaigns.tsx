@@ -1,10 +1,6 @@
 import React from 'react';
 import { 
   IconMail, 
-  IconPlayerPlay, 
-  IconChartBar, 
-  IconUsers,
-  IconClock,
   IconDots
 } from '@tabler/icons-react';
 
