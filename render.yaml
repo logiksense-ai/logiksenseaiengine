@@ -7,7 +7,7 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://nails-yeah-flooring-gospel.trycloudflare.com
-    redirects:
-      - from: /*
+    routes:
+      - type: rewrite
+        from: /*
         to: /index.html
-        type: rewrite
