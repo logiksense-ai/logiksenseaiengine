@@ -60,7 +60,7 @@ function getCategoryIcon(category: string): React.ReactNode {
 
 const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-export const ResearchView: React.FC = () => {
+export const ResearchView = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isResearching, setIsResearching] = useState(false);
   const [researchComplete, setResearchComplete] = useState(false);

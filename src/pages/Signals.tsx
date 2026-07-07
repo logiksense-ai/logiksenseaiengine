@@ -1,7 +1,7 @@
-import { mockCompanies } from '../mockData';
+import { FC } from 'react';
 import { IconTarget, IconExternalLink } from '@tabler/icons-react';
 
-export const Signals: React.FC = () => {
+export const Signals: FC = () => {
   const allSignals = mockCompanies.flatMap(c => c.signals.map(s => ({ ...s, companyName: c.name, companyId: c.id })));
   
   return (

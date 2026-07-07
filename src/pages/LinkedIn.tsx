@@ -6,7 +6,7 @@ import {
   IconAlertCircle
 } from '@tabler/icons-react';
 
-export const LinkedIn: React.FC = () => {
+export const LinkedIn = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', animation: 'fadeIn 0.4s ease-out' }}>
       <div className="glass-panel" style={{ padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(135deg, rgba(10, 102, 194, 0.15) 0%, rgba(0, 0, 0, 0) 100%)' }}>

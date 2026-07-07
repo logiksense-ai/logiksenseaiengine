@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import type { Company, LogEntry } from '../types';
 import { mockSearchTrends } from '../mockData';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
@@ -10,7 +10,7 @@ interface DashboardViewProps {
   onNavigateToLeads: () => void;
 }
 
-export const DashboardView: React.FC<DashboardViewProps> = ({ companies, onNavigateToLeads }) => {
+export const DashboardView: FC<DashboardViewProps> = ({ companies, onNavigateToLeads }) => {
   const [pipelineFilter, setPipelineFilter] = useState<'All' | 'Enterprise' | 'SMB'>('All');
   const [searchTrends, setSearchTrends] = useState<any[]>(mockSearchTrends);
   const [loadingTrends, setLoadingTrends] = useState(false);

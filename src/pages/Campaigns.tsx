@@ -1,8 +1,6 @@
-import { 
-  IconMail
-} from '@tabler/icons-react';
+import { FC } from 'react';
 
-export const Campaigns: React.FC = () => {
+export const Campaigns: FC = () => {
   const campaigns = [
     { id: 1, name: 'Q3 Enterprise Outreach', status: 'Running', sent: 142, openRate: '68%', leads: 42 },
     { id: 2, name: 'SMB Automated Followup', status: 'Paused', sent: 89, openRate: '41%', leads: 12 },

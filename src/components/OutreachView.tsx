@@ -6,7 +6,7 @@ interface OutreachViewProps {
   companies: Company[];
 }
 
-export const OutreachView: React.FC<OutreachViewProps> = ({ companies }) => {
+export const OutreachView = ({ companies }: OutreachViewProps) => {
   const outreachLeads = companies.filter(c => c.intentScore >= 51);
   const [selectedLeadId, setSelectedLeadId] = useState<string>(outreachLeads[0]?.id || '');
   const [activeTab, setActiveTab] = useState<'email' | 'brief' | 'community'>('email');

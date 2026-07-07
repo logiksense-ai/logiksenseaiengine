@@ -6,7 +6,7 @@ interface LeadsViewProps {
   companies: Company[];
 }
 
-export const LeadsView: React.FC<LeadsViewProps> = ({ companies }) => {
+export const LeadsView = ({ companies }: LeadsViewProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('All');
   const [activeCompany, setActiveCompany] = useState<Company | null>(null);

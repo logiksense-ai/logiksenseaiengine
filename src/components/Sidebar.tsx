@@ -24,7 +24,7 @@ const navItems = [
   { icon: IconSettings,        label: 'Settings',     route: '/settings' },
 ];
 
-export const Sidebar: React.FC = () => {
+export const Sidebar = () => {
   return (
     <div className="sidebar" style={{ 
       display: 'flex', 

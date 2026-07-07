@@ -1,7 +1,7 @@
-import { OrchestratorView } from '../components/OrchestratorView';
+import { FC } from 'react';
 import { mockAgents, mockLogs } from '../mockData';
 
-export const Agents: React.FC = () => {
+export const Agents: FC = () => {
   return (
     <div>
       <OrchestratorView 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FC } from 'react';
 import type { ICPTemplate, Company } from '../types';
 import { Sparkles, Sliders } from 'lucide-react';
 
@@ -8,7 +8,7 @@ interface ICPBuilderViewProps {
   companies: Company[];
 }
 
-export const ICPBuilderView: React.FC<ICPBuilderViewProps> = ({ icpTemplate, onSaveTemplate, companies }) => {
+export const ICPBuilderView: FC<ICPBuilderViewProps> = ({ icpTemplate, onSaveTemplate, companies }) => {
   const [industries, setIndustries] = useState<string[]>(icpTemplate.targetIndustries);
   const minHeadcount = icpTemplate.minHeadcount;
   const [maxHeadcount, setMaxHeadcount] = useState<number>(icpTemplate.maxHeadcount);

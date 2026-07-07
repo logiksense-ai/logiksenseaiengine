@@ -4,7 +4,7 @@ interface SignalPillProps {
   recency: string;
 }
 
-export const SignalPill: React.FC<SignalPillProps> = ({ icon, label, recency }) => {
+export const SignalPill = ({ icon, label, recency }: SignalPillProps) => {
   return (
     <div style={{
       display: 'inline-flex',

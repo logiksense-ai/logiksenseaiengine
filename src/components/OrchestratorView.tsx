@@ -9,7 +9,7 @@ interface OrchestratorViewProps {
   onTriggerAll: () => void;
 }
 
-export const OrchestratorView: React.FC<OrchestratorViewProps> = ({ agents, logs, onTriggerAgent, onTriggerAll }) => {
+export const OrchestratorView = ({ agents, logs, onTriggerAgent, onTriggerAll }: OrchestratorViewProps) => {
   const [selectedAgentId, setSelectedAgentId] = useState<number | null>(null);
 
   const getStatusBadge = (status: AgentStatus['status']) => {

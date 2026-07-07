@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-export const LeadDetail: React.FC = () => {
+export const LeadDetail = () => {
   const { id } = useParams();
 
   return (

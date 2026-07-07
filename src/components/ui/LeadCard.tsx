@@ -14,7 +14,7 @@ interface LeadCardProps {
   angle: string;
 }
 
-export const LeadCard: React.FC<LeadCardProps> = ({ id, name, industry, location, employees, score, tier, angle }) => {
+export const LeadCard = ({ id, name, industry, location, employees, score, tier, angle }: LeadCardProps) => {
   return (
     <div className="card-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>

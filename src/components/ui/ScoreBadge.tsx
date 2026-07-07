@@ -14,7 +14,7 @@ interface ScoreBadgeProps {
   size?: 'sm' | 'lg';
 }
 
-export const ScoreBadge: React.FC<ScoreBadgeProps> = ({ score, tier, label, size = 'sm' }) => {
+export const ScoreBadge = ({ score, tier, label, size = 'sm' }: ScoreBadgeProps) => {
   const styles = tierStyles[tier];
 
   return (
