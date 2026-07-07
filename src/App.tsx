@@ -15,6 +15,7 @@ import { AuditLog } from './pages/AuditLog';
 import { Sequences } from './pages/Sequences';
 import { Inbox } from './pages/Inbox';
 import { Pipeline } from './pages/Pipeline';
+import { Analytics } from './pages/Analytics';
 import { Compliance } from './pages/Compliance';
 import { Login } from './pages/Login';
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="/leads" element={<Leads />} />
             <Route path="/leads/:id" element={<LeadDetail />} />
             <Route path="/icp" element={<ICP />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/research" element={<ResearchView />} />
             <Route path="/scraper" element={<Scraper />} />
             <Route path="/signals" element={<Signals />} />

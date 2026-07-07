@@ -3,6 +3,7 @@ import io
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from typing import List, Optional, Dict
 from pydantic import BaseModel
 from datetime import datetime
@@ -14,14 +15,19 @@ from models import (
     LeadModel, EmailTemplateModel, EmailSequenceModel, 
     LinkedInCampaignModel
 )
+from contextlib import asynccontextmanager
 
-# Initialize database schemas automatically
-Base.metadata.create_all(bind=engine)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize database schemas automatically on startup
+    Base.metadata.create_all(bind=engine)
+    yield
 
 app = FastAPI(
     title="LogikSense AI Engine",
     description="Enterprise-grade autonomous buying intent detection & AI agent orchestration.",
-    version="3.0.0 (Production)"
+    version="3.0.0 (Production)",
+    lifespan=lifespan
 )
 
 # Enable CORS for frontend dashboard on Render/local
@@ -174,8 +180,6 @@ def get_audit_logs(db: Session = Depends(get_db)):
     # Reusing AgentLogModel for simplicity in this port
     logs = db.query(AgentLogModel).order_by(AgentLogModel.timestamp.desc()).limit(100).all()
     return logs
-    db.refresh(new_company)
-    return {"status": "success", "id": new_company.id}
 
 # ── Lead Management Endpoints ──────────────────────────────
 
@@ -347,17 +351,13 @@ async def promote_lead(req: PromoteLeadRequest):
 
 # ── LOGIKSENSE PORTED MODULES ──────────────────────────────
 
-@app.get("/api/leads")
-def get_leads(db: Session = Depends(get_db)):
-    return db.query(models.LeadModel).all()
-
 @app.get("/api/email/templates")
 def get_templates(db: Session = Depends(get_db)):
-    return db.query(models.EmailTemplateModel).all()
+    return db.query(EmailTemplateModel).all()
 
 @app.post("/api/email/templates")
 def create_template(name: str, subject: str, body: str, db: Session = Depends(get_db)):
-    template = models.EmailTemplateModel(name=name, subject=subject, body=body)
+    template = EmailTemplateModel(name=name, subject=subject, body=body)
     db.add(template)
     db.commit()
     db.refresh(template)
@@ -365,16 +365,64 @@ def create_template(name: str, subject: str, body: str, db: Session = Depends(ge
 
 @app.get("/api/email/sequences")
 def get_sequences(db: Session = Depends(get_db)):
-    return db.query(models.EmailSequenceModel).all()
+    return db.query(EmailSequenceModel).all()
 
 @app.get("/api/linkedin/campaigns")
 def get_linkedin_campaigns(db: Session = Depends(get_db)):
-    return db.query(models.LinkedInCampaignModel).all()
+    return db.query(LinkedInCampaignModel).all()
 
 @app.get("/api/pipeline")
 def get_pipeline(db: Session = Depends(get_db)):
-    # Simple mock for now
-    return []
+    """
+    Returns leads grouped by their status for the pipeline view.
+    """
+    leads = db.query(LeadModel).all()
+    stages = ["new", "contacted", "replied", "converted", "bounced"]
+    columns = []
+    
+    for stage in stages:
+        stage_leads = [
+            {
+                "id": l.id,
+                "first_name": l.first_name,
+                "last_name": l.last_name,
+                "email": l.email,
+                "company_name": l.company_name,
+                "job_title": l.job_title,
+                "lead_score": l.lead_score
+            } for l in leads if l.status == stage
+        ]
+        columns.append({
+            "stage": stage,
+            "count": len(stage_leads),
+            "leads": stage_leads
+        })
+        
+    return {"columns": columns}
+
+@app.get("/api/analytics/kpis")
+def get_analytics_kpis(db: Session = Depends(get_db)):
+    """
+    Returns key performance indicators for the dashboard/analytics.
+    """
+    total_leads = db.query(LeadModel).count()
+    total_companies = db.query(CompanyModel).count()
+    total_signals = db.query(SignalModel).count()
+    
+    # Mocking some outreach stats as we dont have a send_log table yet
+    return {
+        "totalLeads": total_leads,
+        "totalCompanies": total_companies,
+        "totalSignals": total_signals,
+        "avgIntentScore": db.query(func.avg(CompanyModel.intent_score)).scalar() or 0,
+        "outreachStats": {
+            "sent": 1250,
+            "opened": 450,
+            "replied": 85,
+            "openRate": 36.0,
+            "replyRate": 6.8
+        }
+    }
 
 # ── HEALTH & UTILS ──────────────────────────────────────────
 

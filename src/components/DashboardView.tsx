@@ -9,10 +9,12 @@ import { IconBrandLinkedin } from '@tabler/icons-react';
 interface DashboardViewProps {
   companies: Company[];
   logs: LogEntry[];
+  stats: any;
+  loading: boolean;
   onNavigateToLeads: () => void;
 }
 
-export const DashboardView: FC<DashboardViewProps> = ({ companies, onNavigateToLeads }) => {
+export const DashboardView: FC<DashboardViewProps> = ({ companies, stats, loading, onNavigateToLeads }) => {
   const [pipelineFilter, setPipelineFilter] = useState<'All' | 'Enterprise' | 'SMB'>('All');
   const [searchTrends, setSearchTrends] = useState<any[]>(mockSearchTrends);
   const [loadingTrends, setLoadingTrends] = useState(false);
@@ -34,9 +36,10 @@ export const DashboardView: FC<DashboardViewProps> = ({ companies, onNavigateToL
   const filteredCompanies = companies.filter(c => pipelineFilter === 'All' || c.targetTier === pipelineFilter);
 
   // Compute metrics
-  const totalTracked = filteredCompanies.length;
+  const totalTracked = stats?.totalCompanies ?? filteredCompanies.length;
   const highIntentCount = filteredCompanies.filter(c => c.intentScore >= 60).length;
-  const totalSignals = filteredCompanies.reduce((acc, c) => acc + c.signals.length, 0);
+  const totalSignals = stats?.totalSignals ?? filteredCompanies.reduce((acc, c) => acc + c.signals.length, 0);
+  const totalLeads = stats?.totalLeads ?? 0;
 
   // Score distribution data for chart
   const scoreTiers = [

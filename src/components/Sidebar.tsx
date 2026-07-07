@@ -15,12 +15,14 @@ import {
   IconStack2,
   IconShieldCheck,
   IconLayoutColumns,
+  IconChartBar,
   IconLogout
 } from '@tabler/icons-react';
 
 const intelligenceItems = [
   { icon: IconLayoutDashboard, label: 'Dashboard',    route: '/' },
   { icon: IconUsers,           label: 'Leads',        route: '/leads' },
+  { icon: IconChartBar,        label: 'Analytics',    route: '/analytics' },
   { icon: IconSearch,          label: 'Research',      route: '/research' },
   { icon: IconTarget,          label: 'ICP Builder',   route: '/icp' },
   { icon: IconRadar,           label: 'AI Scraper',    route: '/scraper' },
