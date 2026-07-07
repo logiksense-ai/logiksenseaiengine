@@ -12,9 +12,9 @@ from models import CompanyModel, SignalModel, AgentLogModel
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="IntentGraph AI Platform API",
-    description="Backend API for autonomous buying intent detection and 13-agent orchestration.",
-    version="2.0.0"
+    title="LogikSense AI Engine",
+    description="Enterprise-grade autonomous buying intent detection & AI agent orchestration.",
+    version="3.0.0 (Production)"
 )
 
 # Enable CORS for frontend dashboard on Render/local
@@ -46,8 +46,8 @@ class CompanyCreate(BaseModel):
 def read_root():
     return {
         "status": "online",
-        "system": "IntentGraph AI Intelligence Operating System",
-        "version": "2.0.0"
+        "system": "LogikSense AI Engine",
+        "version": "3.0.0"
     }
 
 @app.get("/api/companies")
