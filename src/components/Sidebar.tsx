@@ -48,8 +48,8 @@ export const Sidebar = () => {
           <IconRadar size={18} color="#fff" />
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>Marketist</span>
-          <span style={{ fontSize: '10px', color: 'var(--color-secondary)', fontWeight: 600, textTransform: 'uppercase' }}>Unified Platform</span>
+          <span style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>LogikSense</span>
+          <span style={{ fontSize: '10px', color: 'var(--color-secondary)', fontWeight: 600, textTransform: 'uppercase' }}>Intelligence Engine</span>
         </div>
       </div>
 
